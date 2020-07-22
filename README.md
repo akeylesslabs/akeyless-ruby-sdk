@@ -1,6 +1,6 @@
 # swagger_client
 
-SwaggerClient - the Ruby gem for the AKEYLESS Vault API
+akeyless-api-gateway - the Ruby library for AKEYLESS Vault API
 
 RESTFull API for interacting with AKEYLESS Vault API
 
