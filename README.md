@@ -101,7 +101,7 @@ Class | Method | HTTP request | Description
 *SwaggerClient::DefaultApi* | [**decrypt_pkcs1**](docs/DefaultApi.md#decrypt_pkcs1) | **POST** /decrypt-pkcs1 | Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
 *SwaggerClient::DefaultApi* | [**delete_assoc**](docs/DefaultApi.md#delete_assoc) | **POST** /delete-assoc | Delete an association between role and auth method
 *SwaggerClient::DefaultApi* | [**delete_auth_method**](docs/DefaultApi.md#delete_auth_method) | **POST** /delete-auth-method | Delete the Auth Method
-*SwaggerClient::DefaultApi* | [**delete_item**](docs/DefaultApi.md#delete_item) | **POST** /delete-item | Delete an item
+*SwaggerClient::DefaultApi* | [**delete_item**](docs/DefaultApi.md#delete_item) | **POST** /delete-item | Delete an item or an item version
 *SwaggerClient::DefaultApi* | [**delete_role**](docs/DefaultApi.md#delete_role) | **POST** /delete-role | Delete a role
 *SwaggerClient::DefaultApi* | [**delete_role_rule**](docs/DefaultApi.md#delete_role_rule) | **POST** /delete-role-rule | Delete a rule from a role
 *SwaggerClient::DefaultApi* | [**describe_item**](docs/DefaultApi.md#describe_item) | **POST** /describe-item | Returns the item details

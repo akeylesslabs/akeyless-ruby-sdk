@@ -24,7 +24,7 @@ Method | HTTP request | Description
 [**decrypt_pkcs1**](DefaultApi.md#decrypt_pkcs1) | **POST** /decrypt-pkcs1 | Decrypts a plaintext using RSA and the padding scheme from PKCS#1 v1.5
 [**delete_assoc**](DefaultApi.md#delete_assoc) | **POST** /delete-assoc | Delete an association between role and auth method
 [**delete_auth_method**](DefaultApi.md#delete_auth_method) | **POST** /delete-auth-method | Delete the Auth Method
-[**delete_item**](DefaultApi.md#delete_item) | **POST** /delete-item | Delete an item
+[**delete_item**](DefaultApi.md#delete_item) | **POST** /delete-item | Delete an item or an item version
 [**delete_role**](DefaultApi.md#delete_role) | **POST** /delete-role | Delete a role
 [**delete_role_rule**](DefaultApi.md#delete_role_rule) | **POST** /delete-role-rule | Delete a rule from a role
 [**describe_item**](DefaultApi.md#describe_item) | **POST** /describe-item | Returns the item details
@@ -114,11 +114,11 @@ No authorization required
 
 
 # **auth**
-> ReplyObj auth(access_id, opts)
+> ReplyObj auth(opts)
 
 Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
 
-Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
+Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type=access_key)   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   cloud-id -    The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type=ldap)
 
 ### Example
 ```ruby
@@ -127,18 +127,19 @@ require 'swagger_client'
 
 api_instance = SwaggerClient::DefaultApi.new
 
-access_id = 'access_id_example' # String | Access ID
-
 opts = { 
-  access_type: 'access_type_example', # String | Access Type (access_key/saml/ldap/azure_ad/aws_iam)
+  access_id: 'access_id_example', # String | Access ID
+  access_type: 'access_type_example', # String | Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)
   access_key: 'access_key_example', # String | Access key (relevant only for access-type=access_key)
+  admin_password: 'admin_password_example', # String | Password (relevant only for access-type=password)
+  admin_email: 'admin_email_example', # String | Email (relevant only for access-type=password)
   cloud_id: 'cloud_id_example', # String | The cloued identity (relevant only for access-type=azure_ad,awd_im,auid)
   ldap_proxy_url: 'ldap_proxy_url_example' # String | Address URL for LDAP proxy (relevant only for access-type=ldap)
 }
 
 begin
   #Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
-  result = api_instance.auth(access_id, opts)
+  result = api_instance.auth(opts)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling DefaultApi->auth: #{e}"
@@ -149,9 +150,11 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **access_id** | **String**| Access ID | 
- **access_type** | **String**| Access Type (access_key/saml/ldap/azure_ad/aws_iam) | [optional] 
+ **access_id** | **String**| Access ID | [optional] 
+ **access_type** | **String**| Access Type (access_key/password/saml/ldap/azure_ad/aws_iam) | [optional] 
  **access_key** | **String**| Access key (relevant only for access-type&#x3D;access_key) | [optional] 
+ **admin_password** | **String**| Password (relevant only for access-type&#x3D;password) | [optional] 
+ **admin_email** | **String**| Email (relevant only for access-type&#x3D;password) | [optional] 
  **cloud_id** | **String**| The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im,auid) | [optional] 
  **ldap_proxy_url** | **String**| Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap) | [optional] 
 
@@ -171,11 +174,11 @@ No authorization required
 
 
 # **configure**
-> ReplyObj configure(access_id, opts)
+> ReplyObj configure(opts)
 
 Configure client profile.
 
-Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
+Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   admin-password -    Password (relevant only for access-type=password)   admin-email -    Email (relevant only for access-type=password)   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type=ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 
 ### Example
 ```ruby
@@ -184,18 +187,19 @@ require 'swagger_client'
 
 api_instance = SwaggerClient::DefaultApi.new
 
-access_id = 'access_id_example' # String | Access ID
-
 opts = { 
+  access_id: 'access_id_example', # String | Access ID
   access_key: 'access_key_example', # String | Access Key
-  access_type: 'access_type_example', # String | Access Type (access_key/azure_ad/saml/ldap/aws_iam)
+  admin_password: 'admin_password_example', # String | Password (relevant only for access-type=password)
+  admin_email: 'admin_email_example', # String | Email (relevant only for access-type=password)
+  access_type: 'access_type_example', # String | Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)
   ldap_proxy_url: 'ldap_proxy_url_example', # String | Address URL for ldap proxy (relevant only for access-type=ldap)
   azure_ad_object_id: 'azure_ad_object_id_example' # String | Azure Active Directory ObjectId (relevant only for access-type=azure_ad)
 }
 
 begin
   #Configure client profile.
-  result = api_instance.configure(access_id, opts)
+  result = api_instance.configure(opts)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling DefaultApi->configure: #{e}"
@@ -206,9 +210,11 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **access_id** | **String**| Access ID | 
+ **access_id** | **String**| Access ID | [optional] 
  **access_key** | **String**| Access Key | [optional] 
- **access_type** | **String**| Access Type (access_key/azure_ad/saml/ldap/aws_iam) | [optional] 
+ **admin_password** | **String**| Password (relevant only for access-type&#x3D;password) | [optional] 
+ **admin_email** | **String**| Email (relevant only for access-type&#x3D;password) | [optional] 
+ **access_type** | **String**| Access Type (access_key/password/azure_ad/saml/ldap/aws_iam) | [optional] 
  **ldap_proxy_url** | **String**| Address URL for ldap proxy (relevant only for access-type&#x3D;ldap) | [optional] 
  **azure_ad_object_id** | **String**| Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad) | [optional] 
 
@@ -1288,9 +1294,9 @@ No authorization required
 # **delete_item**
 > ReplyObj delete_item(name, token)
 
-Delete an item
+Delete an item or an item version
 
-Delete an item Options:   name -    Item name   token -    Access token
+Delete an item or an item version Options:   name -    Item name   token -    Access token
 
 ### Example
 ```ruby
@@ -1305,7 +1311,7 @@ token = 'token_example' # String | Access token
 
 
 begin
-  #Delete an item
+  #Delete an item or an item version
   result = api_instance.delete_item(name, token)
   p result
 rescue SwaggerClient::ApiError => e
