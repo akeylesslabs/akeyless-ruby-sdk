@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *SwaggerClient::DefaultApi* | [**list_auth_methods**](docs/DefaultApi.md#list_auth_methods) | **POST** /list-auth-methods | Returns a list of all the Auth Methods in the account
 *SwaggerClient::DefaultApi* | [**list_items**](docs/DefaultApi.md#list_items) | **POST** /list-items | Returns a list of all accessible items
 *SwaggerClient::DefaultApi* | [**list_roles**](docs/DefaultApi.md#list_roles) | **POST** /list-roles | Returns a list of all roles in the account
+*SwaggerClient::DefaultApi* | [**reverse_rbac**](docs/DefaultApi.md#reverse_rbac) | **POST** /reverse-rbac | See which authentication methods have access to a particular object
 *SwaggerClient::DefaultApi* | [**set_role_rule**](docs/DefaultApi.md#set_role_rule) | **POST** /set-role-rule | Set a rule to a role
 *SwaggerClient::DefaultApi* | [**sign_pkcs1**](docs/DefaultApi.md#sign_pkcs1) | **POST** /sign-pkcs1 | Calculates the signature of hashed using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5
 *SwaggerClient::DefaultApi* | [**unconfigure**](docs/DefaultApi.md#unconfigure) | **POST** /unconfigure | Remove Configuration of client profile.

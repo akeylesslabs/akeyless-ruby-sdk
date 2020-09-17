@@ -49,14 +49,15 @@ describe 'DefaultApi' do
 
   # unit tests for auth
   # Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication
-  # Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)   access-key -    Access key (relevant only for access-type&#x3D;access_key)   admin-password -    Password (relevant only for access-type&#x3D;password)   admin-email -    Email (relevant only for access-type&#x3D;password)   cloud-id -    The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im,auid)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap)
+  # Authenticate to the service and returns a token to be used as a profile to execute the CLI without the need for re-authentication Options:   access-id -    Access ID   access-type -    Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)   access-key -    Access key (relevant only for access-type&#x3D;access_key)   cloud-id -    The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im)   uid_token -    The universal_identity token (relevant only for access-type&#x3D;universal_identity)   admin-password -    Password (relevant only for access-type&#x3D;password)   admin-email -    Email (relevant only for access-type&#x3D;password)   ldap_proxy_url -    Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap)
   # @param [Hash] opts the optional parameters
   # @option opts [String] :access_id Access ID
-  # @option opts [String] :access_type Access Type (access_key/password/saml/ldap/azure_ad/aws_iam)
+  # @option opts [String] :access_type Access Type (access_key/password/saml/ldap/azure_ad/aws_iam/universal_identity)
   # @option opts [String] :access_key Access key (relevant only for access-type&#x3D;access_key)
+  # @option opts [String] :cloud_id The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im)
+  # @option opts [String] :uid_token The universal_identity token (relevant only for access-type&#x3D;universal_identity)
   # @option opts [String] :admin_password Password (relevant only for access-type&#x3D;password)
   # @option opts [String] :admin_email Email (relevant only for access-type&#x3D;password)
-  # @option opts [String] :cloud_id The cloued identity (relevant only for access-type&#x3D;azure_ad,awd_im,auid)
   # @option opts [String] :ldap_proxy_url Address URL for LDAP proxy (relevant only for access-type&#x3D;ldap)
   # @return [ReplyObj]
   describe 'auth test' do
@@ -67,13 +68,14 @@ describe 'DefaultApi' do
 
   # unit tests for configure
   # Configure client profile.
-  # Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   admin-password -    Password (relevant only for access-type&#x3D;password)   admin-email -    Email (relevant only for access-type&#x3D;password)   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type&#x3D;ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad)
+  # Configure client profile. Options:   access-id -    Access ID   access-key -    Access Key   access-type -    Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)   admin-password -    Password (relevant only for access-type&#x3D;password)   admin-email -    Email (relevant only for access-type&#x3D;password)   uid_token -    The universal_identity token (relevant only for access-type&#x3D;universal_identity)   ldap_proxy_url -    Address URL for ldap proxy (relevant only for access-type&#x3D;ldap)   azure_ad_object_id -    Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad)
   # @param [Hash] opts the optional parameters
   # @option opts [String] :access_id Access ID
   # @option opts [String] :access_key Access Key
+  # @option opts [String] :access_type Access Type (access_key/password/azure_ad/saml/ldap/aws_iam/universal_identity)
   # @option opts [String] :admin_password Password (relevant only for access-type&#x3D;password)
   # @option opts [String] :admin_email Email (relevant only for access-type&#x3D;password)
-  # @option opts [String] :access_type Access Type (access_key/password/azure_ad/saml/ldap/aws_iam)
+  # @option opts [String] :uid_token The universal_identity token (relevant only for access-type&#x3D;universal_identity)
   # @option opts [String] :ldap_proxy_url Address URL for ldap proxy (relevant only for access-type&#x3D;ldap)
   # @option opts [String] :azure_ad_object_id Azure Active Directory ObjectId (relevant only for access-type&#x3D;azure_ad)
   # @return [ReplyObj]
@@ -185,9 +187,10 @@ describe 'DefaultApi' do
 
   # unit tests for create_auth_method_saml
   # Create a new Auth Method that will be able to authenticate using SAML
-  # Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   token -    Access token
+  # Create a new Auth Method that will be able to authenticate using SAML Options:   name -    Auth Method name   access-expires -    Access expiration date in Unix timestamp (select 0 for access without expiry date)   bound-ips -    A CIDR whitelist of the IPs that the access is restricted to   idp-metadata-url -    IDP metadata url   idp-metadata-xml -    IDP metadata xml   token -    Access token
   # @param name Auth Method name
   # @param idp_metadata_url IDP metadata url
+  # @param idp_metadata_xml IDP metadata xml
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :access_expires Access expiration date in Unix timestamp (select 0 for access without expiry date)
@@ -201,11 +204,12 @@ describe 'DefaultApi' do
 
   # unit tests for create_dynamic_secret
   # Creates a new dynamic secret item
-  # Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
+  # Creates a new dynamic secret item Options:   name -    Dynamic secret name   metadata -    Metadata about the dynamic secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)   token -    Access token
   # @param name Dynamic secret name
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :metadata Metadata about the dynamic secret
+  # @option opts [String] :tag List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   # @option opts [String] :key The name of a key that used to encrypt the dynamic secret values (if empty, the account default protectionKey key will be used)
   # @return [ReplyObj]
   describe 'create_dynamic_secret test' do
@@ -216,12 +220,13 @@ describe 'DefaultApi' do
 
   # unit tests for create_key
   # Creates a new key
-  # Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+  # Creates a new key Options:   name -    Key name   alg -    Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]   metadata -    Metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into (not includes customer fragment)   customer-frg-id -    The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
   # @param name Key name
   # @param alg Key type. options- [AES128GCM, AES256GCM, AES128SIV, AES256SIV, RSA1024, RSA2048]
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :metadata Metadata about the key
+  # @option opts [String] :tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   # @option opts [String] :split_level The number of fragments that the item will be split into (not includes customer fragment)
   # @option opts [String] :customer_frg_id The customer fragment ID that will be used to create the key (if empty, the key will be created independently of a customer fragment)
   # @return [ReplyObj]
@@ -280,12 +285,13 @@ describe 'DefaultApi' do
 
   # unit tests for create_secret
   # Creates a new secret item
-  # Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by &#39;\\n&#39;)   token -    Access token
+  # Creates a new secret item Options:   name -    Secret name   value -    The secret value   metadata -    Metadata about the secret   tag -    List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   key -    The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)   multiline -    The provided value is a multiline value (separated by &#39;\\n&#39;)   token -    Access token
   # @param name Secret name
   # @param value The secret value
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :metadata Metadata about the secret
+  # @option opts [String] :tag List of the tags attached to this secret. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   # @option opts [String] :key The name of a key that used to encrypt the secret value (if empty, the account default protectionKey key will be used)
   # @option opts [BOOLEAN] :multiline The provided value is a multiline value (separated by &#39;\\n&#39;)
   # @return [ReplyObj]
@@ -640,12 +646,13 @@ describe 'DefaultApi' do
 
   # unit tests for list_items
   # Returns a list of all accessible items
-  # Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
+  # Returns a list of all accessible items Options:   type -    The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]   ItemsTypes -    ItemsTypes   filter -    Filter by item name or part of it   tag -    Filter by item tag   path -    Path to folder   pagination-token -    Next page reference   token -    Access token
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :type The item types list of the requested items. In case it is empty, all types of items will be returned. options- [key, static-secret, dynamic-secret]
   # @option opts [String] :items_types ItemsTypes
   # @option opts [String] :filter Filter by item name or part of it
+  # @option opts [String] :tag Filter by item tag
   # @option opts [String] :path Path to folder
   # @option opts [String] :pagination_token Next page reference
   # @return [ReplyObj]
@@ -663,6 +670,20 @@ describe 'DefaultApi' do
   # @option opts [String] :pagination_token Next page reference
   # @return [ReplyObj]
   describe 'list_roles test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
+  # unit tests for reverse_rbac
+  # See which authentication methods have access to a particular object
+  # See which authentication methods have access to a particular object Options:   path -    Path to an object   type -    Type of object (item, am, role)   token -    Access token
+  # @param path Path to an object
+  # @param type Type of object (item, am, role)
+  # @param token Access token
+  # @param [Hash] opts the optional parameters
+  # @return [ReplyObj]
+  describe 'reverse_rbac test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
@@ -723,12 +744,14 @@ describe 'DefaultApi' do
 
   # unit tests for update_item
   # Update item name and metadata
-  # Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   token -    Access token
+  # Update item name and metadata Options:   name -    Current item name   new-name -    New item name   new-metadata -    New item metadata   add-tag -    List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2   rm-tag -    List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2   token -    Access token
   # @param name Current item name
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :new_name New item name
   # @option opts [String] :new_metadata New item metadata
+  # @option opts [String] :add_tag List of the new tags that will be attached to this item. To specify multiple tags use argument multiple times- --add-tag Tag1 --add-tag Tag2
+  # @option opts [String] :rm_tag List of the existent tags that will be removed from this item. To specify multiple tags use argument multiple times- --rm-tag Tag1 --rm-tag Tag2
   # @return [ReplyObj]
   describe 'update_item test' do
     it 'should work' do
@@ -769,13 +792,14 @@ describe 'DefaultApi' do
 
   # unit tests for upload_pkcs12
   # Upload a PKCS#12 key and certificates
-  # Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
+  # Upload a PKCS#12 key and certificates Options:   name -    Name of key to be created   in -    PKCS#12 input file (private key and certificate only)   passphrase -    Passphrase to unlock the pkcs#12 bundle   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   cert -    Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file   token -    Access token
   # @param name Name of key to be created
   # @param _in PKCS#12 input file (private key and certificate only)
   # @param passphrase Passphrase to unlock the pkcs#12 bundle
   # @param token Access token
   # @param [Hash] opts the optional parameters
   # @option opts [String] :metadata A metadata about the key
+  # @option opts [String] :tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   # @option opts [String] :split_level The number of fragments that the item will be split into
   # @option opts [String] :customer_frg_id The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
   # @option opts [String] :cert Path to a file that contain the certificate in a PEM format. If this parameter is not empty, the certificate will be taken from here and not from the PKCS#12 input file
@@ -788,7 +812,7 @@ describe 'DefaultApi' do
 
   # unit tests for upload_rsa
   # Upload RSA key
-  # Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
+  # Upload RSA key Options:   name -    Name of key to be created   alg -    Key type. options- [RSA1024, RSA2048]   rsa-key-file-path -    RSA private key file path   cert -    Path to a file that contain the certificate in a PEM format.   metadata -    A metadata about the key   tag -    List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2   split-level -    The number of fragments that the item will be split into   customer-frg-id -    The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)   token -    Access token
   # @param name Name of key to be created
   # @param alg Key type. options- [RSA1024, RSA2048]
   # @param rsa_key_file_path RSA private key file path
@@ -796,6 +820,7 @@ describe 'DefaultApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :cert Path to a file that contain the certificate in a PEM format.
   # @option opts [String] :metadata A metadata about the key
+  # @option opts [String] :tag List of the tags attached to this key. To specify multiple tags use argument multiple times- -t Tag1 -t Tag2
   # @option opts [String] :split_level The number of fragments that the item will be split into
   # @option opts [String] :customer_frg_id The customer fragment ID that will be used to split the key (if empty, the key will be created independently of a customer fragment)
   # @return [ReplyObj]
